@@ -45,7 +45,6 @@ const Tile = memo(function Tile({ tile, index, onClick, locked }) {
             {/* Front face */}
             <div className={`${styles.face} ${styles.front}`} aria-hidden="true">
                 <span className={styles.emoji}>{emoji}</span>
-                <span className={styles.label}>{label}</span>
             </div>
         </div>
     );
