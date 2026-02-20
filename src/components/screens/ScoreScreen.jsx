@@ -16,6 +16,10 @@ export default function ScoreScreen({ showToast }) {
     const { game, user } = state;
     const { score, flipsCount, timeRemaining, elapsedSeconds } = game;
 
+    // Calculate score out of 10
+    const scaledScore = Math.round((score / TOTAL_PAIRS) * 10);
+    const scoreVal = scaledScore > 10 ? 10 : scaledScore; // Clamp just in case (though math says it shouldn't exceed)
+
     const [showBook, setShowBook] = useState(false);
     const fillRef = useRef(null);
 
@@ -59,7 +63,10 @@ export default function ScoreScreen({ showToast }) {
                 <div className={`screen-inner ${styles.inner}`}>
 
                     {/* Header */}
-                    <p className={styles.label}>Your Result</p>
+                    <p className={styles.label}>
+                        {user.name ? `Hi ${user.name.split(' ')[0]}!` : 'Game Over'}
+                    </p>
+                    <p className={styles.subLabel}>Your Protection Score</p>
 
                     {/* Score Ring */}
                     <div className={styles.ringWrap}>
@@ -80,9 +87,9 @@ export default function ScoreScreen({ showToast }) {
                                 />
                             </svg>
                             <div className={styles.ringInner}>
-                                <div className={styles.scoreBig}>{score}</div>
-                                <div className={styles.scoreDenom}>/ {TOTAL_PAIRS}</div>
-                                <div className={styles.scoreLbl}>Pairs</div>
+                                <div className={styles.scoreBig}>{scoreVal}</div>
+                                <div className={styles.scoreDenom}>/ 10</div>
+                                <div className={styles.scoreLbl}>Score</div>
                             </div>
                         </div>
                     </div>
@@ -109,10 +116,6 @@ export default function ScoreScreen({ showToast }) {
                         <div className={styles.statCard}>
                             <div className={styles.statVal}>{flipsCount}</div>
                             <div className={styles.statLbl}>Flips Used</div>
-                        </div>
-                        <div className={styles.statCard}>
-                            <div className={styles.statVal}>{score > 0 ? (flipsCount / score).toFixed(1) : '—'}</div>
-                            <div className={styles.statLbl}>Flips/Match</div>
                         </div>
                     </div>
 

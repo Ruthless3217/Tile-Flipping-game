@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { ACTION, useGame } from '../context/GameContext';
-import { SCREENS, TOTAL_PAIRS } from '../constants/game';
+import { SCREENS, TOTAL_PAIRS, MAX_FLIPS } from '../constants/game';
 
 /**
  * Countdown timer for the game screen.
@@ -9,7 +9,7 @@ import { SCREENS, TOTAL_PAIRS } from '../constants/game';
  */
 export function useGameTimer(onEnd) {
     const { state, dispatch, navigate } = useGame();
-    const { isEnded, timeRemaining, matchedPairs } = state.game;
+    const { isEnded, timeRemaining, matchedPairs, flipsCount } = state.game;
     const intervalRef = useRef(null);
 
     useEffect(() => {
@@ -43,4 +43,14 @@ export function useGameTimer(onEnd) {
             setTimeout(() => navigate(SCREENS.SCORE), 800);
         }
     }, [matchedPairs, isEnded, dispatch, navigate, onEnd, state.screen]);
+
+    // Watch for flip limit
+    useEffect(() => {
+        if (state.screen !== SCREENS.GAME) return;
+        if (flipsCount >= MAX_FLIPS && !isEnded) {
+            dispatch({ type: ACTION.END_GAME });
+            onEnd?.('flips');
+            setTimeout(() => navigate(SCREENS.SCORE), 800);
+        }
+    }, [flipsCount, isEnded, dispatch, navigate, onEnd, state.screen]);
 }

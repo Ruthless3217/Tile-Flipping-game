@@ -75,11 +75,13 @@
     display: flex;
     align-items: flex-end;
     justify-content: center;
-    gap: 16px;
+    gap: 8px;
+    /* Reduced from 16px */
     position: relative;
     padding: 20px 0;
 }
 
+/* ---- RESTORED STYLES ---- */
 .star {
     position: absolute;
     font-size: 20px;
@@ -119,57 +121,25 @@
     text-transform: uppercase;
 }
 
-.charBodyBlue,
-.charBodyOrange {
-    animation: float 3s ease-in-out infinite;
+.charImageContainer {
+    width: 140px;
+    /* Increased from 100px */
+    height: 140px;
+    /* Increased from 100px */
+    overflow: hidden;
+    /* border-radius: 12px; Optional, if we want rounded corners */
 }
 
-.charBodyOrange {
-    animation-delay: 0.5s;
+.charImage {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    /* Changed to contain to show full image */
 }
 
-.shirtBlue,
-.shirtOrange {
-    width: 48px;
-    height: 38px;
-    border-radius: 14px 14px 8px 8px;
-    margin: 2px auto 0;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
+/* Removed specific cropping classes as we now use separate images */
 
-.shirtBlue {
-    background: linear-gradient(135deg, #1E4ED8, #3B6EF5);
-}
-
-.shirtOrange {
-    background: linear-gradient(135deg, #F97316, #FFB380);
-}
-
-.shirtIcon {
-    font-size: 16px;
-    opacity: 0.55;
-}
-
-.arm {
-    position: absolute;
-    top: 4px;
-    width: 14px;
-    height: 26px;
-    border-radius: 7px;
-}
-
-.armRight {
-    right: -12px;
-    transform: rotate(25deg);
-}
-
-.armLeft {
-    left: -12px;
-    transform: rotate(-25deg);
-}
+/* DELETED: Old character styles (charBodyBlue, etc) */
 
 /* ---- MINI BOARD ---- */
 .miniBoard {

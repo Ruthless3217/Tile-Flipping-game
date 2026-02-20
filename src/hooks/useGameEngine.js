@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { ICONS, TOTAL_PAIRS, MISMATCH_DELAY, GAME_DURATION } from '../constants/game';
+import { ICONS, TOTAL_PAIRS, MISMATCH_DELAY, GAME_DURATION, MAX_FLIPS } from '../constants/game';
 import { ACTION, useGame } from '../context/GameContext';
 
 /** Fisher-Yates shuffle */
@@ -64,6 +64,10 @@ export function useGameEngine() {
         if (tile.isFlipped || tile.isMatched) return;
         if (selectedIndices.includes(index)) return;
         if (selectedIndices.length >= 2) return;
+        if (state.game.flipsCount >= MAX_FLIPS) {
+            dispatch({ type: ACTION.END_GAME });
+            return;
+        }
 
         dispatch({ type: ACTION.FLIP_TILE, payload: { index } });
 

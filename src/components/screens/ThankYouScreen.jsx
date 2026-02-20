@@ -93,7 +93,7 @@ export default function ThankYouScreen() {
                 {/* Actions */}
                 <div className={styles.actions}>
                     <Button variant="primary" fullWidth onClick={handlePlayAgain} id="btn-play-again-ty">
-                        🔄&nbsp; Play Again
+                        &nbsp; Play Again
                     </Button>
                     <p className={styles.note}>We&apos;ll call you at the scheduled time. See you soon! 🛡️</p>
                 </div>

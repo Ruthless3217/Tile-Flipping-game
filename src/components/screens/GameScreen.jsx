@@ -3,7 +3,7 @@ import { useGame } from '../../context/GameContext';
 import { useGameEngine } from '../../hooks/useGameEngine';
 import { useGameTimer } from '../../hooks/useGameTimer';
 import { formatTime, getHintText } from '../../utils/gameUtils';
-import { TOTAL_PAIRS } from '../../constants/game';
+import { TOTAL_PAIRS, MAX_FLIPS } from '../../constants/game';
 import GameBoard from './GameBoard';
 import styles from './GameScreen.module.css';
 
@@ -15,6 +15,7 @@ export default function GameScreen({ showToast }) {
     // Timer manages countdown and end conditions automatically
     useGameTimer(useCallback((reason) => {
         if (reason === 'win') showToast?.('🎉 You matched all pairs!', 'success');
+        else if (reason === 'flips') showToast?.('⚠️ Out of moves!', 'info');
         else showToast?.(`⏰ Time's up!`, 'info');
     }, [showToast]));
 
@@ -43,7 +44,9 @@ export default function GameScreen({ showToast }) {
                 </div>
                 <div className={styles.stat}>
                     <span className={styles.statLabel}>Flips</span>
-                    <span className={styles.statValue}>{flipsCount}</span>
+                    <span className={`${styles.statValue} ${flipsCount >= MAX_FLIPS - 5 ? styles.warn : ''}`}>
+                        {flipsCount} / {MAX_FLIPS}
+                    </span>
                 </div>
             </div>
 
@@ -62,7 +65,7 @@ export default function GameScreen({ showToast }) {
             <div className={styles.hint}>
                 <div className={styles.hintChip}>
                     {isWarning
-                        ? `⚡ Hurry! Only ${timeRemaining}s left!`
+                        ? ` Hurry! Only ${timeRemaining}s left!`
                         : getHintText(matchedPairs)
                     }
                 </div>
